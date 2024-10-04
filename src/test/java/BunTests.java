@@ -1,24 +1,13 @@
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import praktikum.Bun;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class BunTests {
 
     Bun bun;
-    private final String name;
-    private final float price;
 
-    public BunTests(String name, float price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    @Parameterized.Parameters
     public static Object[][] getParameters() {
         return new Object[][] {
                 {"black bun", 100},
@@ -29,22 +18,14 @@ public class BunTests {
         };
     }
 
-    @Before
-    public void setUp() {
+    @ParameterizedTest
+    @MethodSource("getParameters")
+    public void BunTest(String name, float price) {
         bun = new Bun(name, price);
-    }
-
-    @Test
-    public void BunNameTest() {
-        assertEquals("Поле name сохранилось некорректно",
-                name, bun.getName());
-
-    }
-
-    @Test
-    public void bunPriceTest() {
-        assertEquals("Поле price сохранилось некорревтно",
-                price, bun.getPrice() , 0.00001);
+        assertEquals(name, bun.getName(),
+                "Поле name сохранилось некорректно");
+        assertEquals(price, bun.getPrice() , 0.00001,
+                "Поле price сохранилось некорревтно");
 
     }
 
